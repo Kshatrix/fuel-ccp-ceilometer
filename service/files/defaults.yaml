@@ -1,0 +1,12 @@
+configs:
+  ceilometer:
+    debug: false
+
+    auth:
+      user: ceilometer
+      password: ceilometer
+
+sources:
+  openstack/ceilometer:
+    git_url: https://git.openstack.org/openstack/ceilometer.git
+    git_ref: stable/newton

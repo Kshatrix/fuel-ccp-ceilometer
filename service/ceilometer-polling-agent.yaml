@@ -1,0 +1,39 @@
+dsl_version: 0.5.0
+service:
+  name: ceilometer-polling-agent
+  kind: DaemonSet
+  hostNetwork: true
+  containers:
+    - name: ceilometer-polling-agent
+      image: ceilometer-polling-agent
+      volumes:
+        - name: libvirt
+          type: host
+          path: /var/run/libvirt
+      pre:
+        - name: ceilometer-user-create
+          dependencies:
+            - keystone-create-project
+          type: single
+          command: openstack user create --domain default --password {{ ceilometer.auth.password  }} {{ ceilometer.auth.user }}
+        - name: ceilometer-role-add
+          dependencies:
+            - ceilometer-user-create
+          type: single
+          command: openstack role add --project service --user {{ ceilometer.auth.user }} admin
+      daemon:
+        files:
+          - ceilometer-conf
+          - polling-pipeline
+        dependencies:
+          - rabbitmq
+          - nova-api
+        command: ceilometer-polling
+
+files:
+  ceilometer-conf:
+    path: /etc/ceilometer/ceilometer.conf
+    content: ceilometer.conf.j2
+  polling-pipeline:
+    path: /etc/ceilometer/pipeline.yaml
+    content: pipeline.yaml.j2

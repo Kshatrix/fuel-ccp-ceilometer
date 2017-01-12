@@ -1,0 +1,10 @@
+FROM {{ image_spec("openstack-base") }}
+MAINTAINER {{ maintainer }}
+
+{{ copy_sources("openstack/ceilometer", "/ceilometer") }}
+
+RUN useradd --user-group ceilometer \
+    && /var/lib/microservices/venv/bin/pip install --upgrade /ceilometer \
+    && mkdir -p /etc/ceilometer \
+    && cp -r /ceilometer/etc/ceilometer/*.yaml /etc/ceilometer \
+    && chown -R ceilometer:ceilometer /etc/ceilometer

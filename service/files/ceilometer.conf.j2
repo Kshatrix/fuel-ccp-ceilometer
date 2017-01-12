@@ -1,0 +1,23 @@
+[DEFAULT]
+
+debug = {{ ceilometer.debug }}
+
+use_syslog = false
+use_stderr = true
+
+polling_namespaces = compute
+
+[service_credentials]
+project_domain_id = default
+user_domain_id = default
+auth_type = password
+auth_url = {{ address("keystone", keystone.public_port, with_scheme=True) }}
+project_name = service
+username = {{ ceilometer.auth.user }}
+password = {{ ceilometer.auth.password }}
+interface = internalURL
+
+[libvirt]
+connection_uri = "qemu+tcp://{{ network_topology["private"]["address"] }}/system"
+
+{{ oslomessaging[messaging.backend.rpc]('rpc_config') }}
