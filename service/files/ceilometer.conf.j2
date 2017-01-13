@@ -2,6 +2,10 @@
 
 debug = {{ ceilometer.debug }}
 
+prometheus_port = {{ ceilometer.prometheus_port.cont }}
+enable_prometheus = true
+metadata_fields = stack
+
 use_syslog = false
 use_stderr = true
 

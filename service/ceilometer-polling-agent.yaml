@@ -1,6 +1,8 @@
 dsl_version: 0.5.0
 service:
   name: ceilometer-polling-agent
+  ports:
+    - {{ ceilometer.prometheus_port }}
   kind: DaemonSet
   hostNetwork: true
   containers:

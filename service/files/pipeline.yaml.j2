@@ -7,34 +7,11 @@ sources:
       sinks:
           - meter_sink
     - name: cpu_source
-      interval: 5
+      interval: 20
       meters:
-          - "cpu"
+          - "cpu_util"
       sinks:
-          - cpu_sink
-          - cpu_delta_sink
-    - name: disk_source
-      interval: 600
-      meters:
-          - "disk.read.bytes"
-          - "disk.read.requests"
-          - "disk.write.bytes"
-          - "disk.write.requests"
-          - "disk.device.read.bytes"
-          - "disk.device.read.requests"
-          - "disk.device.write.bytes"
-          - "disk.device.write.requests"
-      sinks:
-          - disk_sink
-    - name: network_source
-      interval: 600
-      meters:
-          - "network.incoming.bytes"
-          - "network.incoming.packets"
-          - "network.outgoing.bytes"
-          - "network.outgoing.packets"
-      sinks:
-          - network_sink
+          - meter_sink
 sinks:
     - name: meter_sink
       transformers:

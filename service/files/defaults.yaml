@@ -2,6 +2,9 @@ configs:
   ceilometer:
     debug: false
 
+    prometheus_port:
+      cont: 30000
+
     auth:
       user: ceilometer
       password: ceilometer
