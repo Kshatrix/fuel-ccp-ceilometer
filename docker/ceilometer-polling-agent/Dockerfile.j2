@@ -1,10 +1,8 @@
 FROM {{ image_spec("ceilometer-base") }}
 MAINTAINER {{ maintainer }}
 
-# Newton constraint has a hard req libvirt-python==2.1.0. Ocata has 2.5.0.
-RUN apt-get -y install --no-install-recommends \
-     libvirt-dev \
-    && sed -i 's/libvirt-python===2.1.0/libvirt-python===2.4.0/' /var/lib/microservices/venv/constraints.txt \
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends libvirt-dev \
     && /var/lib/microservices/venv/bin/pip install --upgrade libvirt-python prometheus_client
 
 USER ceilometer
